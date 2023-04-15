@@ -86,17 +86,33 @@ router.get('/data', auth, async function (request, response, next) {
 });
 
 
-router.get('/echo', async function (request, response, next) {
+router.get('/esp-recv', async function (request, response, next) {
   try {
     console.log(request.body);
     console.log(request.query);
     return response.json({
       cool: true,
-      message: "I got your message lukas is cool"
+      message: "I recived your message"
     });
   } catch (e) {
     console.log(e);
   }
 });
+
+router.post('/esp-send', async function (request, response, next) {
+  try {
+    console.log(request.body);
+    console.log(request.query);
+    return response.json({
+      cool: true,
+      message: "you sent a message"
+    });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+
+
 
 module.exports = router;
