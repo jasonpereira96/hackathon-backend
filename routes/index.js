@@ -86,7 +86,7 @@ router.get('/data', auth, async function (request, response, next) {
 });
 
 
-router.get('/echo', auth, async function (request, response, next) {
+router.get('/echo', async function (request, response, next) {
   try {
     console.log(request.body);
     console.log(request.query);
