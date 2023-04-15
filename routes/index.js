@@ -92,7 +92,7 @@ router.get('/echo', async function (request, response, next) {
     console.log(request.query);
     return response.json({
       cool: true,
-      message: "I got your message"
+      message: "I got your message lukas is cool"
     });
   } catch (e) {
     console.log(e);
