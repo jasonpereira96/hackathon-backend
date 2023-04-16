@@ -128,6 +128,18 @@ router.post('/esp-send', async function (request, response, next) {
   }
 });
 
+router.post('/esp', async function (request, response, next) {
+  try {
+    console.log(request.body);
+    return response.json({
+      cool: true,
+      message: "you sent a message on the new endpoint"
+    });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 
 
 
