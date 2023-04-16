@@ -122,6 +122,18 @@ router.post('/esp-send', async function (request, response, next) {
   }
 });
 
+router.get('/pump-data', async function (request, response, next) {
+  const readings = await Reading.findAll({
+    limit: 10,
+    order: [
+      ['createdAt', 'DESC'],
+    ]
+  });
+  return response.json({
+    readings
+  });
+});
+
 router.post('/esp', async function (request, response, next) {
   try {
     console.log(request.body); 

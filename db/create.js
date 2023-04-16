@@ -1,5 +1,5 @@
 // const db = require("./db");
-const { User, WaterReading, PhReading, Reading } = require("./db")
+const { User, WaterReading, PhReading, Reading, PumpRecord } = require("./db")
 
 async function doit() {
     const kacper = await User.create({
@@ -59,7 +59,7 @@ async function createReading() {
             overflow: false,
             underflow: false,
             turbulence: false,
-            temperature: getRandomInt(0, 90),
+            temperature: getRandomInt(0, 35),
             humidity: getRandomInt(10, 40),
             pumpStatus: true,
             pumpInterval: getRandomInt(10, 40),
@@ -69,12 +69,28 @@ async function createReading() {
     }
 }
 
+async function createPumpRecord() {
+    for (let i=0; i<10; i++) {
+        await PumpRecord.create({action: 'on'});
+        await PumpRecord.create({action: 'off'});
+        await PumpRecord.create({action: 'on'});
+        await PumpRecord.create({action: 'off'});
+        await PumpRecord.create({action: 'on'});
+        await PumpRecord.create({action: 'off'});
+        await PumpRecord.create({action: 'on'});
+        await PumpRecord.create({action: 'off'});
+        await PumpRecord.create({action: 'on'});
+        await PumpRecord.create({action: 'off'});
+        await PumpRecord.create({action: 'on'});
+    }
+}
+
 
 // doit();
 // createWaterReading();
 // createPhReading();
-createReading();
-
+// createReading();
+// createPumpRecord();
 
 
 
