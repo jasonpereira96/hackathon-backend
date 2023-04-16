@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { sequelize, User, WaterReading, PhReading, Reading } = require("./../db/db");
+const { sequelize, User, WaterReading, PhReading, Reading, PumpRecord } = require("./../db/db");
 const { getRandomToken } = require("./../util/util");
 const { auth } = require("./../middleware/auth");
 
@@ -123,7 +123,7 @@ router.post('/esp-send', async function (request, response, next) {
 });
 
 router.get('/pump-data', async function (request, response, next) {
-  const readings = await Reading.findAll({
+  const readings = await PumpRecord.findAll({
     limit: 10,
     order: [
       ['createdAt', 'DESC'],
