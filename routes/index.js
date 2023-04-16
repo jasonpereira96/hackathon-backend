@@ -75,13 +75,29 @@ router.post('/logout', async function (req, res, next) {
   }
 });
 
-router.get('/data', auth, async function (request, response, next) {
+router.get('/data', async function (request, response, next) {
   try {
+
+    const phReadings = await PhReading.findAll({
+      limit: 30,
+      order: [
+        ['createdAt', 'DESC'],
+      ]
+    });
+    const waterReadings = await WaterReading.findAll({
+      limit: 30,
+      order: [
+        ['createdAt', 'DESC'],
+      ]
+    });
+
     return response.json({
-      cool: true
+      success: true,
+      phReadings, waterReadings
     });
   } catch (e) {
     console.log(e);
+    response.sendStatus(500);
   }
 });
 
@@ -92,7 +108,7 @@ router.get('/esp-recv', async function (request, response, next) {
     console.log(request.query);
     return response.json({
       cool: true,
-      message: "I recived your message"
+      message: "I recived your message and I want to put it into the database but tell me what is what"
     });
   } catch (e) {
     console.log(e);
