@@ -3,6 +3,7 @@ require('dotenv').config();
 const UserModel = require("./../models/User");
 const PhReadingModel = require("./../models/PhReading");
 const WaterReadingModel = require("./../models/WaterReading");
+const ReadingModel = require("./../models/Reading");
 
 const host = process.env.PGHOST;
 const database = process.env.DATABASE;
@@ -36,10 +37,12 @@ const config = {
 const User = sequelize.define("User", UserModel);
 const PhReading = sequelize.define("PhReading", PhReadingModel);
 const WaterReading = sequelize.define("WaterReading", WaterReadingModel);
+const Reading = sequelize.define("Reading", ReadingModel);
 
 module.exports = {
     sequelize,
     User,
     PhReading,
+    Reading,
     WaterReading
 };

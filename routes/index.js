@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { sequelize, User, WaterReading, PhReading } = require("./../db/db");
+const { sequelize, User, WaterReading, PhReading, Reading } = require("./../db/db");
 const { getRandomToken } = require("./../util/util");
 const { auth } = require("./../middleware/auth");
 
@@ -78,13 +78,7 @@ router.post('/logout', async function (req, res, next) {
 router.get('/data', async function (request, response, next) {
   try {
 
-    const phReadings = await PhReading.findAll({
-      limit: 30,
-      order: [
-        ['createdAt', 'DESC'],
-      ]
-    });
-    const waterReadings = await WaterReading.findAll({
+    const readings = await Reading.findAll({
       limit: 30,
       order: [
         ['createdAt', 'DESC'],
@@ -93,7 +87,7 @@ router.get('/data', async function (request, response, next) {
 
     return response.json({
       success: true,
-      phReadings, waterReadings
+      readings
     });
   } catch (e) {
     console.log(e);
@@ -130,11 +124,23 @@ router.post('/esp-send', async function (request, response, next) {
 
 router.post('/esp', async function (request, response, next) {
   try {
-    console.log(request.body);
-    return response.json({
-      cool: true,
-      message: "you sent a message on the new endpoint"
+    console.log(request.body); 
+    const readings = await Reading.findAll({
+      limit: 1,
+      order: [
+        ['createdAt', 'DESC'],
+      ]
     });
+    const reading = readings[0];
+    let items = [
+      reading.phLow,
+      reading.phHigh,
+      reading.pumpStatus ? 1 : 2,
+      reading.pumpInterval,
+      reading.lightStatus ? 1: 0,
+      reading.lightDurationMinutes
+    ];
+    return response.send(items.join(","));
   } catch (e) {
     console.log(e);
   }

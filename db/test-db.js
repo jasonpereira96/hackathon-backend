@@ -38,9 +38,7 @@ async function test() {
         return;
     }
 
-
-
-    // await sequelize.sync();
+    await sequelize.sync();
 
     console.log("Sync successful");
 

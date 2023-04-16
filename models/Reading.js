@@ -47,11 +47,12 @@ const Reading = {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
-  minutesAfterSunset: {
-    type: DataTypes.INTEGER,
+  // gonna recive 0 or 1 from the picow
+  lightStatus: {
+    type: DataTypes.BOOLEAN,
     allowNull: true,
   },
-  minutesBeforeSunset: {
+  lightDurationMinutes: {
     type: DataTypes.INTEGER,
     allowNull: true,
   }
