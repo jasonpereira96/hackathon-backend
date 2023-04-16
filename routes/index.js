@@ -140,11 +140,74 @@ router.post('/esp', async function (request, response, next) {
       reading.lightStatus ? 1: 0,
       reading.lightDurationMinutes
     ];
-    return response.send(items.join(","));
+
+    /*
+    {
+  ph: '7.00',
+  phLow: '0.00',
+  phHigh: '14.00',
+  overflow: '0',
+  underflow: '0',
+  turbulance: '0',
+  temperature: '69.42',
+  humidity: '12.50',
+  pump_status: '0',
+  pump_interval_seconds: '1800',
+  light_status: '0',
+  light_duration_minutes: '60'
+}
+     */
+    
+    response.send(items.join(","));
+    let data;
+    for (let key of Object.keys(request.body)) {
+      if (key.startsWith("ph:")) {
+        data = parseKey(key);
+        console.log(data);
+        break;
+      }
+    }
+
+    let record = {
+      ph: parseFloat(data.ph),
+      phLow: parseFloat(data.phLow),
+      phHigh: parseFloat(data.phHigh),
+      overflow: parseInt(data.overflow) ? 1: 0,
+      underflow: parseInt(data.underflow) ? 1: 0,
+      turbulence: 0,
+      temperature: parseFloat(data.temperature),
+      humidity: parseFloat(data.humidity),
+      pumpStatus: parseInt(data.pump_status) === 1,
+      pumpInterval: parseInt(data.pump_interval_seconds),
+      lightStatus: parseInt(data.light_status) === 1,
+      lightDurationMinutes: parseInt(data.light_duration_minutes)
+    };
+    try {
+      await Reading.create(record);
+      console.log("Reading creation succeeded");
+    } catch(e) {
+      console.log("Reading creation failed");
+    }
   } catch (e) {
     console.log(e);
   }
 });
+
+
+function parseKey(key) {
+  let items = key.split(",");
+  let res = {};
+  console.log(items);
+  for (let i=0; i<12; i++) {
+    let item = items[i];
+    console.log(item);
+    let [k, v] = item.split(":");
+    k = k.trim();
+    v = v.trim();
+    res[k] = v;
+  }
+  return res;
+}
 
 
 
