@@ -137,6 +137,7 @@ router.get('/pump-data', async function (request, response, next) {
 router.post('/esp', async function (request, response, next) {
   try {
     console.log(request.body); 
+    console.log(request);
     const readings = await Reading.findAll({
       limit: 1,
       order: [
